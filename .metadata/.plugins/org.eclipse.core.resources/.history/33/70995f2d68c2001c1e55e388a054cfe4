@@ -1,0 +1,5 @@
+package com.nttdata.credit.app.utils;
+
+public class AppUtils {
+
+}

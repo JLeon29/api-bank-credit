@@ -1,0 +1,5 @@
+package com.nttdata.credit.model.dto;
+
+public class CreditDto {
+
+}

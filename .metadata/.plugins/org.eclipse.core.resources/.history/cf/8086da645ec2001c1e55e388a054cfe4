@@ -1,0 +1,35 @@
+package com.nttdata.credit.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.nttdata.credit.model.Credit;
+import com.nttdata.credit.repository.CreditRepository;
+import com.nttdata.credit.service.ICreditService;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+public class CreditServiceImpl implements ICreditService{
+	
+	@Autowired
+	private CreditRepository creditRepository;
+
+	@Override
+	public Flux<Credit> findAllByClientIdNumber(String clientIdNumber) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Credit> findByContractNumber(String contractNumber) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Credit> validateClientIdNumber(String clientIdNumber) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

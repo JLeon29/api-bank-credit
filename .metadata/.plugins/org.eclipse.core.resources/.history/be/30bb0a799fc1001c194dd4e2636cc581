@@ -1,0 +1,5 @@
+package com.nttdata.client.utils;
+
+public class AppUtils {
+
+}

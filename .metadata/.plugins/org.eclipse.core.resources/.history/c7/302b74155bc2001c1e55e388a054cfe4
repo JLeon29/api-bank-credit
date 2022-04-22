@@ -1,0 +1,10 @@
+package com.nttdata.credit.model;
+
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(value = "account")
+public class Credit {
+	
+	
+
+}
