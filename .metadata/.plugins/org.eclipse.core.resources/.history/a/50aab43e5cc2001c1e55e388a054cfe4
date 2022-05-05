@@ -1,5 +1,0 @@
-package com.nttdata.credit.repository;
-
-public interface CreditRepository {
-
-}

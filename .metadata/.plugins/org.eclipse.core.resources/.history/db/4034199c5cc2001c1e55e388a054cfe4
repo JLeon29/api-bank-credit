@@ -1,5 +1,0 @@
-package com.nttdata.credit.service;
-
-public interface ICreditService {
-
-}
