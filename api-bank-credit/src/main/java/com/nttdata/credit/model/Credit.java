@@ -7,9 +7,10 @@ import javax.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.nttdata.credit.dto.ClientDto;
+import com.nttdata.credit.dto.CustomerDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,9 +30,11 @@ public class Credit {
 	
 	@Id
     private String id;
-	
+
+    @NotNull
     private double capital;
 
+    @Field( name = "date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateOperation = LocalDateTime.now();
 
@@ -39,10 +42,13 @@ public class Credit {
     private String contractNumber;
 
     @NotNull
-    private String clientIdNumber;
+    private String customerIdentityNumber;
 
     private double amountInitial;
 
+    /**
+     * @param amount -> capital + capital*interest
+     */
     private double amount;
 
     private String chargeDay;
@@ -51,8 +57,10 @@ public class Credit {
 
     private double interestRate;
 
+    private boolean debtor;
+
     @NotNull
-    private ClientDto client;
+    private CustomerDTO customer;
 	
 	
 

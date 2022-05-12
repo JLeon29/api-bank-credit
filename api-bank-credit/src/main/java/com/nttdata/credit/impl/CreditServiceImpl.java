@@ -1,10 +1,13 @@
 package com.nttdata.credit.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
-import com.nttdata.credit.app.utils.AppUtils;
-import com.nttdata.credit.dto.CreditDto;
+import com.nttdata.credit.dto.Customer;
+import com.nttdata.credit.model.Credit;
 import com.nttdata.credit.repository.CreditRepository;
 import com.nttdata.credit.service.ICreditService;
 
@@ -14,44 +17,66 @@ import reactor.core.publisher.Mono;
 @Service
 public class CreditServiceImpl implements ICreditService {
 	
+	 private static final Logger log = LoggerFactory.getLogger(CreditServiceImpl.class);
+	
+	@Autowired
+    WebClient.Builder webClientBuilder;
+	
 	@Autowired
 	private CreditRepository repository;
 
 	@Override
-	public Mono<CreditDto> findByContractNumber(String contractNumber) {
-		return repository.findByContractNumber(contractNumber).map(AppUtils::entityToDto);
+	public Mono<Credit> create(Credit o) {
+		 return repository.save(o);
+    }
+
+	@Override
+	public Flux<Credit> findAll() {
+		return repository.findAll();
+    }
+
+	@Override
+	public Mono<Credit> findById(String id) {
+		 return repository.findById(id);
+    }
+
+	@Override
+	public Mono<Credit> update(Credit o) {
+		return repository.save(o);
+    }
+
+	@Override
+	public Mono<Void> delete(Credit o) {
+		return repository.delete(o);
+    }
+
+	@Override
+	public Mono<Credit> findByContractNumber(String contractNumber) {
+		return repository.findByContractNumber(contractNumber);
 	}
 
 	@Override
-	public Flux<CreditDto> findAllCredit() {
-		return repository.findAll().map(AppUtils::entityToDto);
-	}
+	public Mono<Customer> getCustomer(String customerIdentityNumber) {
+		return webClientBuilder.build()
+                .get()
+                .uri("localhost:9000/api/customer/findCustomerCredit/"+customerIdentityNumber)
+                .retrieve()
+                .bodyToMono(Customer.class)
+                .doOnNext(c -> log.info("Customer response: {}", c.getName()) );
+    }
 
 	@Override
-	public Mono<CreditDto> findByIdCredit(String idCreditDto) {
-		return repository.findById(idCreditDto).map(AppUtils::entityToDto);
-	}
+	public Flux<Credit> findAllByCustomerIdentityNumber(String customerIdentityNumber) {
+		return repository.findAllByCustomerIdentityNumber(customerIdentityNumber);
+    }
 
 	@Override
-	public Mono<CreditDto> saveCredit(Mono<CreditDto> creditDto) {
-		return creditDto.map(AppUtils::DtoToEntity)
-                .flatMap(repository::insert)
-                .map(AppUtils::entityToDto);
-	}
+	public Mono<Credit> validateCustomerIdentityNumber(String customerIdentityNumber) {
+		return repository.findByCustomerIdentityNumber(customerIdentityNumber)
+                .switchIfEmpty(Mono.just(Credit.builder().customerIdentityNumber(null).build()));
+    }
 
-	@Override
-	public Mono<CreditDto> updateCreditDto(Mono<CreditDto> creditDto,String idCreditDto) {
-		return repository.findById(idCreditDto)
-				.flatMap(p -> creditDto.map(AppUtils::DtoToEntity)
-						.doOnNext(c -> c.setId(idCreditDto)))
-				.flatMap(repository::save)
-				.map(AppUtils::entityToDto);
-	}
-
-	@Override
-	public Mono<Void> deleteCredit(String idCreditDto) {
-		return repository.deleteById(idCreditDto);
-	}
+	
 
 	
 

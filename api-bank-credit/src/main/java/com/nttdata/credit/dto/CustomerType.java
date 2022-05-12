@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClientTypeDto {
+public class CustomerType {
 	
-	 private String name;
-	 private String code;
-
+    private String name;
+    private String code;
 }
+

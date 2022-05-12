@@ -1,22 +1,17 @@
 package com.nttdata.credit.service;
 
-import com.nttdata.credit.dto.CreditDto;
+import com.nttdata.credit.dto.Customer;
+import com.nttdata.credit.model.Credit;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public interface ICreditService {
+public interface ICreditService extends ICrudService<Credit, String> {
 	
-	
-	Mono<CreditDto> findByContractNumber(String contractNumber);
-    //Mono<ClientDto> getClient(String clientDtoIdNumber);
-    //Flux<Credit> findAllByClientIdNumber(String clientIdNumber);
-    //Mono<Credit> validateClientIdNumber(String clientIdNumber);
-    Flux<CreditDto> findAllCredit();
-    Mono<CreditDto> findByIdCredit(String idCreditDto);
-    Mono<CreditDto> saveCredit(Mono<CreditDto> creditDto);
-    Mono<CreditDto> updateCreditDto(Mono<CreditDto> creditDto, String idCreditDto);
-    Mono<Void> deleteCredit (String idCreditDto);
+	Mono<Credit> findByContractNumber(String contractNumber);
+	Mono<Customer> getCustomer(String customerIdentityNumber);
+	Flux<Credit> findAllByCustomerIdentityNumber(String customerIdentityNumber);
+	Mono<Credit> validateCustomerIdentityNumber(String customerIdentityNumber);
     
 
 }
